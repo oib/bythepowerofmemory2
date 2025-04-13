@@ -1,0 +1,161 @@
+body {
+  font-family: system-ui, sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#game-canvas, #scoreChart {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 0.5rem;
+}
+
+#game-area > div.grid {
+  display: grid;
+  position: relative;
+  max-width: 480px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  gap: 6px;
+  padding: 4px;
+  place-items: center;
+}
+  max-width: 480px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  display: grid;
+  gap: 6px;
+  padding: 4px;
+}
+
+.button-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 1rem 0;
+}
+
+.button-bar button {
+  font-size: 1rem;
+  padding: 8px 16px;
+  border: 1px solid #999;
+  cursor: pointer;
+}
+
+#start-btn {
+  background-color: #d4edda;
+  border-color: #b7dfc3;
+}
+
+#start-btn:hover {
+  background-color: #c3e6cb;
+}
+
+#restart-btn {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+#restart-btn:hover {
+  background-color: #f1b0b7;
+}
+
+#submit-btn {
+  background-color: #e0e0e0;
+  border-color: #ccc;
+}
+
+#submit-btn:hover {
+  background-color: #d0d0d0;
+}
+
+button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.correct {
+  border: 2px solid #28a745;
+  box-shadow: 0 0 4px #28a745;
+}
+
+.wrong {
+  border: 2px solid #dc3545;
+  box-shadow: 0 0 4px #dc3545;
+}
+
+.missed {
+  border: 2px solid #ffc107;
+  box-shadow: 0 0 4px #ffc107;
+}
+
+#scoreboard {
+  max-width: 480px;
+  margin: 0.5rem auto;
+  padding: 0.5rem;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  font-size: 1.1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  justify-items: center;
+}
+
+.color-red { color: #e74c3c; }
+.color-blue { color: #3498db; }
+.color-green { color: #2ecc71; }
+.color-yellow { color: #f1c40f; }
+.color-orange { color: #e67e22; }
+.color-purple { color: #9b59b6; }
+.color-pink { color: #ff69b4; }
+.color-cyan { color: #00bcd4; }
+.color-grey { color: #95a5a6; }
+.color-brown { color: #8d6e63; }
+
+.flash {
+  animation: flash-reset 0.3s ease-in-out;
+}
+
+@keyframes flash-reset {
+  0% { background-color: #fff; }
+  50% { background-color: #cce5ff; }
+  100% { background-color: #fff; }
+}
+
+@media (max-width: 500px) {
+  .button-bar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .button-bar button {
+    width: 100%;
+    max-width: 200px;
+    font-size: 0.95rem;
+    padding: 10px 20px;
+  }
+
+  #scoreboard {
+    font-size: 0.95rem;
+    padding: 0.75rem;
+  }
+}
+
