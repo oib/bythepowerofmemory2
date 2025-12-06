@@ -24,44 +24,63 @@ def on_startup():
     init_db()
 
 # === API Routes ===
+import os
 import logging
-LOG_PATH = "/var/log/games/ByThePowerOfMemory.log"
+from dotenv import load_dotenv
+
+load_dotenv()
+
+LOG_PATH = os.getenv("LOG_PATH", "/var/log/games/ByThePowerOfMemory.log")
+DEBUG = os.getenv("DEBUG", "false").lower() == "true"
+
 logging.basicConfig(filename=LOG_PATH, level=logging.INFO, format="%(asctime)s %(message)s")
 @app.post("/api/submit_score")
 def submit_score(score: Score):
-    with Session(engine) as session:
-        session.add(score)
-        session.commit()
-        return {"status": "ok", "id": score.id}
+    try:
+        with Session(engine) as session:
+            session.add(score)
+            session.commit()
+            return {"status": "ok", "id": score.id}
+    except Exception as e:
+        logging.error(f"Failed to submit score: {e}")
+        return {"status": "error", "message": "Failed to save score"}
 
 @app.get("/api/scoreboard", response_model=List[Score])
 def get_scoreboard(limit: int = 10):
-    with Session(engine) as session:
-        results = session.exec(select(Score).order_by(Score.score.desc()).limit(limit)).all()
-        return results
+    try:
+        with Session(engine) as session:
+            results = session.exec(select(Score).order_by(Score.score.desc()).limit(limit)).all()
+            return results
+    except Exception as e:
+        logging.error(f"Failed to get scoreboard: {e}")
+        return []
 
 @app.get("/api/stats")
 def get_daily_player_averages():
-    with Session(engine) as session:
-        statement = (
-            select(
-                Score.player,
-                func.date(Score.timestamp).label("day"),
-                func.avg(Score.score).label("avg_score")
+    try:
+        with Session(engine) as session:
+            statement = (
+                select(
+                    Score.player,
+                    func.date(Score.timestamp).label("day"),
+                    func.avg(Score.score).label("avg_score")
+                )
+                .group_by(Score.player, func.date(Score.timestamp))
+                .order_by(func.date(Score.timestamp))
             )
-            .group_by(Score.player, func.date(Score.timestamp))
-            .order_by(func.date(Score.timestamp))
-        )
-        results = session.exec(statement).all()
+            results = session.exec(statement).all()
 
-    data = {}
-    for player, day, avg_score in results:
-        data.setdefault(player, []).append({
-            "day": str(day),
-            "avg_score": round(avg_score, 2)
-        })
+        data = {}
+        for player, day, avg_score in results:
+            data.setdefault(player, []).append({
+                "day": str(day),
+                "avg_score": round(avg_score, 2)
+            })
 
-    return JSONResponse(content=data)
+        return JSONResponse(content=data)
+    except Exception as e:
+        logging.error(f"Failed to get stats: {e}")
+        return JSONResponse(content={})
 
 @app.post("/api/log")
 async def write_log(request: Request):

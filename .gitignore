@@ -1,1 +1,21 @@
-venv
+# Bytecode-Dateien
+__pycache__/
+*.py[cod]
+
+# Virtuelle Umgebungen
+.venv/
+venv/
+
+# Betriebssystem-Dateien
+.DS_Store
+Thumbs.db
+
+# Logfiles und Dumps
+*.log
+*.bak
+*.swp
+*.tmp
+
+# IDEs und Editoren
+.vscode/
+.idea/

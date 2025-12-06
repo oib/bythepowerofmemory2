@@ -5,7 +5,7 @@ import { playSound } from "./sound.js";
 import { guess } from "./score.js";
 import { startRound } from "./round.js";
 import { previousTile, currentTile } from "./state.js";
-import { generateRandomTiles } from "./tile.js";
+import { generateRandomTiles, calculateScore } from "./tile.js";
 import { renderTiles } from "./render.js";
 
 let selectedIndices = [];

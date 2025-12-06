@@ -15,21 +15,25 @@
     <div class="button-bar">
       <button id="position-btn" >Position</button>
       <button id="color-btn" >Color</button>
-      <button id="shape-btn" >Shape</button>
+      <button id="shape-btn" >Symbol</button>
       <button id="number-btn" >Number</button>
     </div>
     <div class="button-bar">  
-      <button id="start-btn">Start Game</button>
-      <button id="submit-btn" disabled>Submit</button>
-      <button id="restart-btn">Restart</button>
+      <button id="start-btn">Start / Restart</button>
       <button id="help-btn">❓ Help</button>
       <button id="stats-btn">📊 Stats</button>
     </div>
 
     <div id="scoreboard">
-  <p>✅ Correct: <span id="score-correct">0</span></p>
-  <p>❌ Wrong: <span id="score-wrong">0</span></p>
-</div>
+      <p>✅ Correct: <span id="score-correct">0</span></p>
+      <p>❌ Wrong: <span id="score-wrong">0</span></p>
+      <p><span class="net-icon" aria-label="Net score" title="Net score">🎯</span> Net: <span id="score-net">0</span></p>
+    </div>
+
+    <div id="ratio-bar" aria-label="Correct vs Wrong ratio" title="Correct vs Wrong">
+      <div class="correct" role="presentation"></div>
+      <div class="wrong" role="presentation"></div>
+    </div>
 
     <div id="chart-container">
       <canvas id="scoreChart" width="800" height="300"></canvas>
@@ -40,14 +44,12 @@
     import { startRound } from "/static/round.js";
     import { setupButtons } from "/static/button.js";
     import { guess } from "/static/score.js";
-    import { submit, restart, startGame } from "/static/state.js";
+    import { startGame, initializeUI } from "/static/state.js";
     import { showOverlay } from "/static/overlay.js";
 
     window.addEventListener("DOMContentLoaded", () => {
       setupButtons({
-        onStart: startGame,
-        onSubmit: submit,
-        onRestart: restart,
+        onStart: () => { startGame(); startRound(); },
         onColor: () => guess("color"),
         onPosition: () => guess("position"),
         onShape: () => guess("shape"),
@@ -56,7 +58,8 @@
 
       document.getElementById("stats-btn").addEventListener("click", showOverlay);
 
-      startRound();
+      // Initialize UI only. Do not auto-start; user should click Start.
+      initializeUI();
     });
   </script>
   <script type="module" src="/static/chart.js"></script>

@@ -1,14 +1,11 @@
 export const SHAPES = [
-  "ring_x",
-  "ring_cross",  
+  // Safe, widely supported symbols
   "circle",
   "square",
   "triangle_up",
   "triangle_down",
   "triangle_left",
   "triangle_right",
-  "ring_x",
-  "ring_cross",
   "cross",
   "star",
   "heart",
@@ -21,23 +18,11 @@ export const SHAPES = [
   "double_excl",
   "question_double",
   "question_excl",
-  "excl_question",
-  "spiral",
-  "dots1",
-  "dots2",
-  "flower",
-  "pulsar",
-  "mandala1",
-  "mandala2",
-  "mandala3",
-  "mandala4",
-  "mandala5"
-];;
+  "excl_question"
+];
 
 export function shapeToEmoji(shape) {
   const map = {
-    ring_x: "᳁",
-    ring_cross: "᪠",
     circle: "●",
     square: "■",
     triangle_up: "▲",
@@ -57,18 +42,8 @@ export function shapeToEmoji(shape) {
     question_double: "⁇",
     question_excl: "⁈",
     excl_question: "⁉",
-    spiral: "꩜",
-    dots1: "𐮚",
-    dots2: "𐮙",
-    flower: "𐫱",
-    pulsar: "𐫰",
-    mandala1: "𐩕",
-    mandala2: "𑁍",
-    mandala3: "𑗊",
-    mandala4: "𑗌",
-    mandala5: "𑗍"
   };
-    const emoji = map[shape] || "?";
+  const emoji = map[shape] || "■"; // solid fallback
   return emoji;
 }
 

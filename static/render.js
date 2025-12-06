@@ -2,6 +2,7 @@ import { shapeToEmoji } from "./emoji.js";
 import { DEBUG } from "./config.js";
 import { getTileFeedback } from "./tile.js";
 import { getGridPositions } from "./logic.js";
+import { applyColor } from "./color.js";
 
 export function createCanvas() {
   const canvas = document.createElement("canvas");
@@ -25,6 +26,7 @@ export function renderTiles(tiles, selectedIndices, changedIndices, showFeedback
   const grid = document.createElement("div");
   grid.className = "grid";
   grid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+  grid.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
 
   const validPositions = getGridPositions(gridSize).map(pos => pos.toString());
 
@@ -38,6 +40,13 @@ export function renderTiles(tiles, selectedIndices, changedIndices, showFeedback
     div.className = "tile";
     div.style.gridRowStart = row + 1;
     div.style.gridColumnStart = col + 1;
+    if (tile.color) {
+      applyColor(div, tile.color);
+      div.dataset.color = tile.color;
+      if (DEBUG) console.log("🎨 applied color", tile.color, div.style.backgroundColor);
+    } else if (DEBUG) {
+      console.warn("No tile.color present for tile", tile);
+    }
 
     let feedbackIcon = "";
     if (showFeedback) {
