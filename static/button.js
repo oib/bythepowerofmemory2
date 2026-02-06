@@ -1,5 +1,5 @@
 import { showHelp } from "./help.js";
-import { DEBUG } from "./config.js";
+import { DEBUG, isVoiceEnabled, setVoiceEnabled } from "./config.js";
 
 export function setupButtons({ onStart, onColor, onPosition, onShape, onNumber }) {
   const startBtn = document.getElementById("start-btn");
@@ -8,6 +8,7 @@ export function setupButtons({ onStart, onColor, onPosition, onShape, onNumber }
   const shapeBtn = document.getElementById("shape-btn");
   const numberBtn = document.getElementById("number-btn");
   const helpBtn = document.getElementById("help-btn");
+  const voiceBtn = document.getElementById("voice-btn");
 
   if (startBtn) {
     startBtn.addEventListener("click", () => {
@@ -53,6 +54,35 @@ export function setupButtons({ onStart, onColor, onPosition, onShape, onNumber }
       if (DEBUG) console.log("❓ Help clicked");
       showHelp();
     });
+  }
+
+  // Voice toggle button
+  if (voiceBtn) {
+    // Set initial state
+    updateVoiceButton();
+    
+    voiceBtn.addEventListener("click", () => {
+      const currentState = isVoiceEnabled();
+      const newState = !currentState;
+      setVoiceEnabled(newState);
+      
+      // If disabling, stop any ongoing speech immediately
+      if (!newState) {
+        import('./sound.js').then(({ stopVoice }) => {
+          stopVoice();
+        });
+      }
+      
+      updateVoiceButton();
+    });
+  }
+  
+  function updateVoiceButton() {
+    if (voiceBtn) {
+      const enabled = isVoiceEnabled();
+      voiceBtn.textContent = enabled ? "🔊 Voice" : "🔇 Voice";
+      voiceBtn.setAttribute('aria-label', enabled ? 'Disable voice output' : 'Enable voice output');
+    }
   }
 
   // Ensure the app receives keyboard focus

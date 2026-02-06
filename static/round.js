@@ -21,7 +21,6 @@ export function startRound() {
   // Reset guess button labels (do not force-disable here; guesses will be guarded in guess())
   resetGuessButtons(true); // keep disabled until pattern #2 is visible
   if (DEBUG) console.log("startRound (chain) called");
-  console.log("[round] startRound invoked");
 
   const size = getGridSize();
   const { revealDelay, windowMs } = getLevelTimings();
@@ -35,7 +34,6 @@ export function startRound() {
     }
     state.previousTile = initial;
     if (DEBUG) console.log("🆕 pattern #1:", state.previousTile);
-    console.log("[round] pattern #1 ready", state.previousTile);
     try {
       renderTiles([state.previousTile], [], [], false, size);
     } catch (e) {
@@ -47,7 +45,6 @@ export function startRound() {
       try {
         const next = mutateTile(state.previousTile);
         if (DEBUG) console.log("🔀 pattern #2:", next);
-        console.log("[round] pattern #2 ready", next);
         state.currentTile = next;
         try {
           renderTiles([state.currentTile], [], [], false, size);
