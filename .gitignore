@@ -13,9 +13,53 @@ Thumbs.db
 # Logfiles und Dumps
 *.log
 *.bak
-*.swp
-*.tmp
 
-# IDEs und Editoren
+# IDE und Editor Dateien
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
+
+# Environment und Konfiguration
+.env
+.env.local
+.env.*.local
+config.local.*
+
+# Datenbankdateien
+*.db
+*.sqlite
+*.sqlite3
+
+# Windsurf
+.windsurf/
+
+# Snapshots
+.snapshots/
+*.snapshot
+
+# Temporäre Dateien
+tmp/
+temp/
+*.tmp
+
+# Build und Dist Ordner
+build/
+dist/
+
+# Node modules (falls verwendet)
+node_modules/
+
+# Coverage Berichte
+coverage/
+*.cover
+.hypothesis/
+
+# pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
